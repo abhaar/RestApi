@@ -20,6 +20,12 @@ public class FileService {
     private final Long cacheSize;
     private final long count;
 
+    /**
+     * The File Service uses a Cache to maximize efficiency! The size of the cache can be configured in application.conf
+     * This service is initialized lazily, and upon initialization it computes the total number of lines in the file.
+     * This allows us return a response immediately to anyone requesting a line beyond the total lines in the file without
+     * going through the trouble of reading the file.
+     */
     public FileService() {
         filename = ConfigFactory.load().getString("filename");
         cacheSize = ConfigFactory.load().getLong("cacheSize");
@@ -30,6 +36,11 @@ public class FileService {
         Logger.info("Total lines in file = " + count);
     }
 
+    /**
+     *
+     * @param index The line number to get
+     * @return Optional of line if found, else empty
+     */
     public Optional<String> getLine(long index) {
         if (index > count || index < 1) return Optional.empty();
         try {
@@ -46,6 +57,9 @@ public class FileService {
         return Optional.of(cache().get(index));
     }
 
+    /**
+     * Create Cache
+     */
     private void initializeCache() {
         try {
             cacheManager = newCacheManagerBuilder()
@@ -57,10 +71,18 @@ public class FileService {
         }
     }
 
+    /**
+     *
+     * @return Cache
+     */
     private Cache<Long, String> cache() {
         return cacheManager.getCache("fileCache", Long.class, String.class);
     }
 
+    /**
+     *
+     * @return Total number of lines in the file
+     */
     private long setCount() {
         try {
             return Files.lines(Paths.get(filename)).count();

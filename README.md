@@ -1,16 +1,16 @@
 # RestApi
 This application creates a REST API using Play and supports serving lines out of a file to clients.
 ## Building
-You need ```sbt``` to build and deploy this application. Download the project, unzip, and execute the following script
+You need ```sbt``` to build and deploy this application. Download the project, unzip, and execute the following script from inside the unzipped folder
 ```$xslt
-build.sh
+./build.sh
 ```
 This will pull in all the dependencies and deploy the application.
 
 ## Running
 In order to run the application, execute the following script
 ```$xslt
-start.sh <path of file>
+./start.sh <path of file>
 ```
 which will start the server and start serving lines out of the specified file.
 

@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /lines                      controllers.Application.index
+# GET line from File
 GET     /lines/:index               controllers.Application.line(index: Long)
 
 # Map static resources from the /public folder to the /assets URL path

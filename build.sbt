@@ -16,7 +16,4 @@ libraryDependencies += guice
 //unmanagedResourceDirectories in Test +=  (baseDirectory.value /"target/web/public/test" )
 
 fork in test := true
-//baseDirectory in test := file("/")
-//scriptClasspath := Seq("../conf/", "*")
-//PlayKeys.externalizeResources := false
 javaOptions in test += "-Dconfig.resource=conf/application.test.conf"
