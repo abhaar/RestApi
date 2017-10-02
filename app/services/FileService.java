@@ -5,8 +5,11 @@ import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import play.Logger;
+import sun.nio.cs.US_ASCII;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -46,7 +49,7 @@ public class FileService {
         try {
             if (!cache().containsKey(index)) {
                 Logger.info("Could not find value in Cache. Reading from file...");
-                Optional<String> line = Files.lines(Paths.get(filename)).skip(index - 1).findFirst();
+                Optional<String> line = Files.lines(Paths.get(filename), StandardCharsets.US_ASCII).skip(index - 1).findFirst();
                 line.ifPresent(s -> cache().put(index, s));
             } else {
                 Logger.info("Fetching entry from Cache!");
